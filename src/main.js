@@ -1,13 +1,34 @@
 import "./style.css";
 
-// The NASA API key comes from the .env file and is injected by Vite at build time. It is never hardcoded here
+// The NASA API key comes from the .env file and is injected by Vite at build time
 const apiKey = import.meta.env.VITE_NASA_API_KEY;
 const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
 
 const app = document.querySelector("#app");
 
-// Show a loading message while we wait for the data to come back
-app.innerHTML = "<p>Loading today's picture...</p>";
+// Today's date as YYYY-MM-DD, used as the default and the latest day you can pick.
+const today = new Date().toISOString().slice(0, 10);
+
+// Put the title and date picker at the top, with an empty area for the picture below.
+app.innerHTML = `
+  <h1>NASA Picture of the Day</h1>
+  <input type="date" id="datePicker" max="${today}" value="${today}" />
+  <div id="content"></div>
+`;
+
+const content = document.querySelector("#content");
+const datePicker = document.querySelector("#datePicker");
+
+// Load a new picture whenever the chosen date changes.
+datePicker.addEventListener("change", () => loadPicture(datePicker.value));
+
+// Load today's picture when the page first opens.
+loadPicture(today);
+
+function loadPicture(date) {
+  const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${date}`;
+
+  content.innerHTML = "<p>Loading...</p>";
 
 fetch(url)
   .then((response) => response.json())
@@ -39,6 +60,7 @@ fetch(url)
     app.innerHTML = "<p>Sorry, something went wrong loading the picture.</p>";
     console.log(error);
   });
+}
 
 // Returns true if the link is a YouTube video
 function isYouTube(link) {
