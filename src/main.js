@@ -66,8 +66,9 @@ function isYouTube(link) {
 function createShootingStar(x, y) {
   const star = document.createElement("div");
   star.className = "shooting-star";
-  star.style.left = x + "px";
-  star.style.top = y + "px";
+  // center the 100x2 streak on the given point so it starts at the cursor
+  star.style.left = x - 50 + "px";
+  star.style.top = y - 1 + "px";
   document.body.appendChild(star);
 
   // remove it once the animation ends so they do not pile up
@@ -76,6 +77,8 @@ function createShootingStar(x, y) {
 
 // send a shooting star across a random spot every couple of seconds
 setInterval(() => {
+  // do not spawn while the tab is hidden, or they pile up and all burst through on return
+  if (document.hidden) return;
   const x = Math.random() * window.innerWidth;
   const y = Math.random() * window.innerHeight * 0.6;
   createShootingStar(x, y);

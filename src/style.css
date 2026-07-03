@@ -153,7 +153,7 @@ iframe {
   position: fixed;
   width: 100px;
   height: 2px;
-  background: linear-gradient(90deg, #ffffff, transparent);
+  background: linear-gradient(90deg, transparent, #ffffff);
   border-radius: 999px;
   pointer-events: none;
   z-index: -1;
