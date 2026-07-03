@@ -147,3 +147,26 @@ iframe {
     display: none;
   }
 }
+
+/* shooting stars that streak and fade */
+.shooting-star {
+  position: fixed;
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, #ffffff, transparent);
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: -1;
+  animation: shoot 1s linear forwards;
+}
+
+@keyframes shoot {
+  from {
+    opacity: 1;
+    transform: rotate(45deg) translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: rotate(45deg) translateX(350px);
+  }
+}
