@@ -19,6 +19,10 @@ let memoEditing = false;
 app.innerHTML = `
   <div class="planet" aria-hidden="true"></div>
   <h1>Picture of the Day</h1>
+  <div class="clock" aria-hidden="true">
+    <span class="clock-time" id="clockTime"></span>
+    <span class="clock-date" id="clockDate"></span>
+  </div>
   <div class="controls">
     <button id="prev" class="nav-arrow" title="Previous day" aria-label="Previous day">&lsaquo;</button>
     <input type="date" id="datePicker" min="${MIN_DATE}" max="${today}" value="${today}" aria-label="Pick a date" />
@@ -77,6 +81,10 @@ noteList.addEventListener("click", (event) => {
 // first paint
 renderNotes();
 loadPicture(today);
+
+// live clock, ticks every second
+updateClock();
+setInterval(updateClock, 1000);
 
 // central place to change the day: clamp, sync the picker, drop any open editor, fetch
 function goTo(date) {
@@ -341,3 +349,21 @@ document.addEventListener("click", (event) => {
   shootingStar(event.clientX, event.clientY);
 });
 hello
+
+// read the current time into the clock element
+function updateClock() {
+  const now = new Date();
+  const timeEl = document.querySelector("#clockTime");
+  const dateEl = document.querySelector("#clockDate");
+  if (!timeEl || !dateEl) return;
+  timeEl.textContent = now.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+  dateEl.textContent = now.toLocaleDateString([], {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+}
