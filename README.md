@@ -8,9 +8,11 @@ A small web page that shows NASA's Astronomy Picture of the Day (APOD), the day'
 
 - Fetches the Astronomy Picture of the Day from the NASA APOD API
 - Shows the title, the media (image, video, or embedded YouTube), and NASA's explanation for it
-- Lets you pick any past date to view that day's picture
-- Has an animated starfield with shooting stars, and clicking the background launches one
-- Defaults to today's entry each time it loads
+- Defaults to today's entry, with a live clock ticking under the title
+- Lets you browse by date: pick any day, step one day at a time with the arrows or the keyboard, or hit "Surprise me" for a random one
+- Links to the full-resolution image when the API provides one
+- **Anniversary notes:** attach a note to any day and it comes back on that same date every year, so the archive doubles as a little diary. Notes are saved in your browser
+- Has an animated starfield, a CSS-drawn ringed planet, and shooting stars that also launch when you click the background
 
 ## Tech used
 
