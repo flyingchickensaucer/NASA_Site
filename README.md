@@ -4,8 +4,6 @@ A small web page that shows NASA's Astronomy Picture of the Day (APOD), the day'
 
 **Live demo:** https://flyingchickensaucer.github.io/NASA_Site/
 
-![Screenshot of the page](screenshot.png)
-
 ## What it does
 
 - Fetches the Astronomy Picture of the Day from the NASA APOD API
