@@ -4,11 +4,15 @@ A small web page that shows NASA's Astronomy Picture of the Day (APOD), the day'
 
 **Live demo:** https://flyingchickensaucer.github.io/NASA_Site/
 
+![Screenshot of the page](screenshot.png)
+
 ## What it does
 
 - Fetches the Astronomy Picture of the Day from the NASA APOD API
-- Shows the title, the media (image or video), and NASA's explanation for it
-- Updates automatically each day, since it always requests the current day's entry
+- Shows the title, the media (image, video, or embedded YouTube), and NASA's explanation for it
+- Lets you pick any past date to view that day's picture
+- Has an animated starfield with shooting stars, and clicking the background launches one
+- Defaults to today's entry each time it loads
 
 ## Tech used
 
