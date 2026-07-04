@@ -17,6 +17,7 @@ let memoEditing = false;
 
 // static shell, the entry and notes list are filled in later
 app.innerHTML = `
+  <div class="planet" aria-hidden="true"></div>
   <h1>Picture of the Day</h1>
   <div class="controls">
     <button id="prev" class="nav-arrow" title="Previous day" aria-label="Previous day">&lsaquo;</button>
@@ -113,15 +114,20 @@ function loadPicture(date) {
           ? `<a class="hd" href="${data.hdurl}" target="_blank" rel="noopener">View in HD ↗</a>`
           : "";
 
+      const anniv = anniversaryHtml(data.date);
       content.innerHTML = `
         <article class="entry">
-          ${anniversaryHtml(data.date)}
-          <div class="media">${media}</div>
-          <div class="entry-head"><h2>${data.title}</h2></div>
-          <p class="meta">${formatDate(data.date)}${credit}</p>
-          <p class="explanation">${data.explanation}</p>
-          ${hdLink}
-          ${memoHtml(data.date)}
+          ${anniv ? `<div class="anniv-list">${anniv}</div>` : ""}
+          <div class="entry-body">
+            <div class="media">${media}</div>
+            <div class="details">
+              <div class="entry-head"><h2>${data.title}</h2></div>
+              <p class="meta">${formatDate(data.date)}${credit}</p>
+              <p class="explanation">${data.explanation}</p>
+              ${hdLink}
+              ${memoHtml(data.date)}
+            </div>
+          </div>
         </article>
       `;
 
@@ -315,17 +321,23 @@ function isYouTube(link) {
 function shootingStar(x, y) {
   const star = document.createElement("div");
   star.className = "shooting-star";
-  star.style.left = x - 45 + "px";
+  star.style.left = x - 50 + "px";
   star.style.top = y - 1 + "px";
   document.body.appendChild(star);
   star.addEventListener("animationend", () => star.remove());
 }
 
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (!reduceMotion) {
-  setInterval(() => {
-    // do not spawn while the tab is hidden, or they pile up and burst on return
-    if (document.hidden) return;
-    shootingStar(Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.6);
-  }, 3500);
-}
+// send a shooting star across a random spot every couple of seconds
+setInterval(() => {
+  // do not spawn while the tab is hidden, or they pile up and burst on return
+  if (document.hidden) return;
+  shootingStar(Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.6);
+}, 2000);
+
+// clicking the empty background launches one from the cursor
+document.addEventListener("click", (event) => {
+  // ignore clicks on the picture card, the controls, and the notes
+  if (event.target.closest("button, a, input, textarea, .entry, .controls, .notebook")) return;
+  shootingStar(event.clientX, event.clientY);
+});
+hello

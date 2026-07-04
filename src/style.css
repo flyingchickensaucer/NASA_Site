@@ -41,8 +41,53 @@ body::before {
   z-index: -1;
 }
 
+/* a ringed planet hanging in the top corner of the sky, drawn in pure CSS */
+.planet {
+  position: fixed;
+  top: -70px;
+  right: -50px;
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  /* lit from the upper-left, shadowed on the lower-right for a 3D sphere */
+  background: radial-gradient(circle at 34% 30%, #dfe6ff 0%, #8a9be6 34%, #4450a0 64%, #232a5c 100%);
+  box-shadow: inset -22px -16px 46px rgba(0, 0, 0, 0.55),
+    0 0 70px rgba(122, 162, 255, 0.18);
+  opacity: 0.55;
+  z-index: -1;
+}
+
+/* the ring, an oversized ellipse tilted across the planet */
+.planet::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 340px;
+  height: 96px;
+  border: 4px solid rgba(200, 214, 255, 0.28);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-24deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .planet {
+    animation: drift 26s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(18px);
+  }
+}
+
 #app {
-  max-width: 760px;
+  position: relative;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 3.5rem 1.5rem 5rem;
 }
@@ -132,6 +177,30 @@ button:disabled {
   }
 }
 
+/* picture and text stack on narrow screens, sit side by side on wide ones */
+.entry-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+@media (min-width: 760px) {
+  .entry-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+  }
+}
+
+/* the run of anniversary callouts above the picture */
+.anniv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+}
+
 /* anniversary callout: a past note resurfacing on its date */
 .anniv {
   display: flex;
@@ -141,7 +210,6 @@ button:disabled {
   background: rgba(122, 162, 255, 0.1);
   border-radius: 12px;
   padding: 0.85rem 1rem;
-  margin-bottom: 1.4rem;
   font-size: 0.92rem;
 }
 
@@ -182,7 +250,7 @@ button:disabled {
   justify-content: space-between;
   align-items: baseline;
   gap: 1rem;
-  margin-top: 1.4rem;
+  margin-top: 0;
 }
 
 h2 {
@@ -377,7 +445,7 @@ textarea {
 /* shooting stars, kept subtle */
 .shooting-star {
   position: fixed;
-  width: 90px;
+  width: 100px;
   height: 2px;
   background: linear-gradient(90deg, transparent, #ffffff);
   border-radius: 999px;
@@ -393,16 +461,13 @@ textarea {
   }
   to {
     opacity: 0;
-    transform: rotate(45deg) translateX(340px);
+    transform: rotate(45deg) translateX(350px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .entry {
     animation: none;
-  }
-  .shooting-star {
-    display: none;
   }
 }
 
@@ -411,6 +476,9 @@ textarea {
     padding: 2.5rem 1.1rem 3.5rem;
   }
   body::before {
+    display: none;
+  }
+  .planet {
     display: none;
   }
   .entry-head {
